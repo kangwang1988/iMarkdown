@@ -8,9 +8,7 @@
 
 #import "CMHTMLElement.h"
 #import "CMHTMLElementTransformer.h"
-
 @implementation CMHTMLElement
-
 - (instancetype)initWithTransformer:(id<CMHTMLElementTransformer>)transformer
 {
     if ((self = [super init])) {

@@ -13,6 +13,8 @@
 		293E9E121D61689F00CE6584 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 293E9E101D61689F00CE6584 /* Main.storyboard */; };
 		293E9E141D61689F00CE6584 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 293E9E131D61689F00CE6584 /* Assets.xcassets */; };
 		293E9E171D61689F00CE6584 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 293E9E151D61689F00CE6584 /* LaunchScreen.storyboard */; };
+		2986C3861D6362B0009B378F /* CMHTMLImgTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2986C3851D6362B0009B378F /* CMHTMLImgTransformer.m */; };
+		2986C3891D63705A009B378F /* NKHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2986C3881D63705A009B378F /* NKHelper.m */; };
 		29F1FA681D616B2D00836B05 /* CMAttributedStringRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 29F1FA0F1D616B2D00836B05 /* CMAttributedStringRenderer.m */; };
 		29F1FA691D616B2D00836B05 /* CMAttributeRun.m in Sources */ = {isa = PBXBuildFile; fileRef = 29F1FA111D616B2D00836B05 /* CMAttributeRun.m */; };
 		29F1FA6A1D616B2D00836B05 /* CMCascadingAttributeStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 29F1FA131D616B2D00836B05 /* CMCascadingAttributeStack.m */; };
@@ -71,6 +73,11 @@
 		293E9E131D61689F00CE6584 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		293E9E161D61689F00CE6584 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		293E9E181D61689F00CE6584 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2986C3841D6362B0009B378F /* CMHTMLImgTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMHTMLImgTransformer.h; sourceTree = "<group>"; };
+		2986C3851D6362B0009B378F /* CMHTMLImgTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMHTMLImgTransformer.m; sourceTree = "<group>"; };
+		2986C3871D63705A009B378F /* NKHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NKHelper.h; sourceTree = "<group>"; };
+		2986C3881D63705A009B378F /* NKHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NKHelper.m; sourceTree = "<group>"; };
+		2986C38A1D637097009B378F /* iMarkdown-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iMarkdown-Prefix.pch"; sourceTree = "<group>"; };
 		29F1FA0E1D616B2D00836B05 /* CMAttributedStringRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMAttributedStringRenderer.h; sourceTree = "<group>"; };
 		29F1FA0F1D616B2D00836B05 /* CMAttributedStringRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMAttributedStringRenderer.m; sourceTree = "<group>"; };
 		29F1FA101D616B2D00836B05 /* CMAttributeRun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMAttributeRun.h; sourceTree = "<group>"; };
@@ -176,6 +183,7 @@
 		293E9DFB1D61689F00CE6584 = {
 			isa = PBXGroup;
 			children = (
+				2986C38A1D637097009B378F /* iMarkdown-Prefix.pch */,
 				29F1FA961D616B6300836B05 /* libxml2.tbd */,
 				293E9E061D61689F00CE6584 /* iMarkdown */,
 				293E9E051D61689F00CE6584 /* Products */,
@@ -204,6 +212,8 @@
 				293E9E151D61689F00CE6584 /* LaunchScreen.storyboard */,
 				293E9E181D61689F00CE6584 /* Info.plist */,
 				293E9E071D61689F00CE6584 /* Supporting Files */,
+				2986C3871D63705A009B378F /* NKHelper.h */,
+				2986C3881D63705A009B378F /* NKHelper.m */,
 			);
 			path = iMarkdown;
 			sourceTree = "<group>";
@@ -234,21 +244,21 @@
 				29F1FA111D616B2D00836B05 /* CMAttributeRun.m */,
 				29F1FA121D616B2D00836B05 /* CMCascadingAttributeStack.h */,
 				29F1FA131D616B2D00836B05 /* CMCascadingAttributeStack.m */,
+				29F1FA1A1D616B2D00836B05 /* CMDocument_Private.h */,
+				29F1FA181D616B2D00836B05 /* CMDocument.h */,
+				29F1FA191D616B2D00836B05 /* CMDocument.m */,
 				29F1FA141D616B2D00836B05 /* CMDocument+AttributedStringAdditions.h */,
 				29F1FA151D616B2D00836B05 /* CMDocument+AttributedStringAdditions.m */,
 				29F1FA161D616B2D00836B05 /* CMDocument+HTMLAdditions.h */,
 				29F1FA171D616B2D00836B05 /* CMDocument+HTMLAdditions.m */,
-				29F1FA181D616B2D00836B05 /* CMDocument.h */,
-				29F1FA191D616B2D00836B05 /* CMDocument.m */,
-				29F1FA1A1D616B2D00836B05 /* CMDocument_Private.h */,
 				29F1FA1B1D616B2D00836B05 /* CMHTMLElement.h */,
 				29F1FA1C1D616B2D00836B05 /* CMHTMLElement.m */,
 				29F1FA1D1D616B2D00836B05 /* CMHTMLElementTransformer.h */,
 				29F1FA1E1D616B2D00836B05 /* CMHTMLRenderer.h */,
 				29F1FA1F1D616B2D00836B05 /* CMHTMLRenderer.m */,
+				29F1FA221D616B2D00836B05 /* CMHTMLScriptTransformer_Private.h */,
 				29F1FA201D616B2D00836B05 /* CMHTMLScriptTransformer.h */,
 				29F1FA211D616B2D00836B05 /* CMHTMLScriptTransformer.m */,
-				29F1FA221D616B2D00836B05 /* CMHTMLScriptTransformer_Private.h */,
 				29F1FA231D616B2D00836B05 /* CMHTMLStrikethroughTransformer.h */,
 				29F1FA241D616B2D00836B05 /* CMHTMLStrikethroughTransformer.m */,
 				29F1FA251D616B2D00836B05 /* CMHTMLSubscriptTransformer.h */,
@@ -261,9 +271,9 @@
 				29F1FA2C1D616B2D00836B05 /* CMHTMLUtilities.m */,
 				29F1FA2D1D616B2D00836B05 /* CMIterator.h */,
 				29F1FA2E1D616B2D00836B05 /* CMIterator.m */,
+				29F1FA311D616B2D00836B05 /* CMNode_Private.h */,
 				29F1FA2F1D616B2D00836B05 /* CMNode.h */,
 				29F1FA301D616B2D00836B05 /* CMNode.m */,
-				29F1FA311D616B2D00836B05 /* CMNode_Private.h */,
 				29F1FA321D616B2D00836B05 /* CMParser.h */,
 				29F1FA331D616B2D00836B05 /* CMParser.m */,
 				29F1FA341D616B2D00836B05 /* CMPlatformDefines.h */,
@@ -274,6 +284,8 @@
 				29F1FA391D616B2D00836B05 /* CocoaMarkdown.h */,
 				29F1FA3A1D616B2D00836B05 /* Configuration */,
 				29F1FA3E1D616B2D00836B05 /* Info.plist */,
+				2986C3841D6362B0009B378F /* CMHTMLImgTransformer.h */,
+				2986C3851D6362B0009B378F /* CMHTMLImgTransformer.m */,
 			);
 			path = CocoaMarkdown;
 			sourceTree = "<group>";
@@ -388,6 +400,9 @@
 				TargetAttributes = {
 					293E9E031D61689F00CE6584 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = VP3AM7E5ZL;
+						DevelopmentTeamName = "Kang Wang";
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -443,6 +458,7 @@
 				29F1FA711D616B2D00836B05 /* CMHTMLStrikethroughTransformer.m in Sources */,
 				29F1FA831D616B2D00836B05 /* houdini_href_e.c in Sources */,
 				29F1FA8F1D616B2D00836B05 /* utf8.c in Sources */,
+				2986C3891D63705A009B378F /* NKHelper.m in Sources */,
 				29F1FA8E1D616B2D00836B05 /* scanners.c in Sources */,
 				29F1FA751D616B2D00836B05 /* CMHTMLUtilities.m in Sources */,
 				29F1FA841D616B2D00836B05 /* houdini_html_e.c in Sources */,
@@ -473,6 +489,7 @@
 				29F1FA861D616B2D00836B05 /* html.c in Sources */,
 				293E9E091D61689F00CE6584 /* main.m in Sources */,
 				29F1FA771D616B2D00836B05 /* CMNode.m in Sources */,
+				2986C3861D6362B0009B378F /* CMHTMLImgTransformer.m in Sources */,
 				29F1FA791D616B2D00836B05 /* CMStack.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -585,11 +602,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Kang Wang (39S29P74A8)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/iMarkdown-Prefix.pch";
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = iMarkdown/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xiaoqu.iMarkdown;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = VP3AM7E5ZL/DevProvisionWithWildCardBundleId;
 			};
 			name = Debug;
 		};
@@ -597,11 +618,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Kang Wang (39S29P74A8)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/iMarkdown-Prefix.pch";
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = iMarkdown/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xiaoqu.iMarkdown;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = VP3AM7E5ZL/DevProvisionWithWildCardBundleId;
 			};
 			name = Release;
 		};

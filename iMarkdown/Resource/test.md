@@ -17,7 +17,7 @@ Here is another list:
     - two
     - sublists
 
-![itunes-wechat](https://raw.githubusercontent.com/kangwang1988/kangwang1988.github.io/master/img/itunes-wechat.png)
+![kangwang1988](https://i.kinja-img.com/gawker-media/image/upload/s--PO-8gGRD--/17z3k5lawpg2mjpg.jpg)
 
 ---
 

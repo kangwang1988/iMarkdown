@@ -10,12 +10,17 @@
 
 @class CMDocument;
 @class CMTextAttributes;
+@class CMAttributedStringRenderer;
 @protocol CMHTMLElementTransformer;
+
+@protocol CMAttributedStringRendererDelegate <NSObject>
+- (void)render:(CMAttributedStringRenderer *)aRender getImageWithURL:(NSURL *)aURL sessionId:(NSString *)sessionId completionBlock:(void(^)(NSString *aSessionId,NSData *aImgData))aCompletionBlock;
+@end
 /**
  *  Renders an attributed string from a Markdown document
  */
 @interface CMAttributedStringRenderer : NSObject
-
+@property (nonatomic,weak) id<CMAttributedStringRendererDelegate> delegate;
 /**
  *  Designated initializer.
  *
@@ -43,5 +48,4 @@
  *  styled using the attributes set on the receiver.
  */
 - (NSAttributedString *)render;
-
 @end

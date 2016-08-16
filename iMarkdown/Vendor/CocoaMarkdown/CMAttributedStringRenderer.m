@@ -16,10 +16,12 @@
 #import "CMTextAttributes.h"
 #import "CMNode.h"
 #import "CMParser.h"
-
 #import "Ono.h"
 
 @interface CMAttributedStringRenderer () <CMParserDelegate>
+@property (nonatomic,copy) NSString *sessionId;
+@property (nonatomic,strong) NSMutableAttributedString *buffer;
+@property (nonatomic,strong) NSMutableAttributedString *attributedString;
 @end
 
 @implementation CMAttributedStringRenderer {
@@ -28,8 +30,6 @@
     CMCascadingAttributeStack *_attributeStack;
     CMStack *_HTMLStack;
     NSMutableDictionary *_tagNameToTransformerMapping;
-    NSMutableAttributedString *_buffer;
-    NSAttributedString *_attributedString;
 }
 
 - (instancetype)initWithDocument:(CMDocument *)document attributes:(CMTextAttributes *)attributes
@@ -51,6 +51,7 @@
 - (NSAttributedString *)render
 {
     if (_attributedString == nil) {
+        [self setSessionId:[NKHelper stringWithUUID]];
         _attributeStack = [[CMCascadingAttributeStack alloc] init];
         _HTMLStack = [[CMStack alloc] init];
         _buffer = [[NSMutableAttributedString alloc] init];
@@ -58,10 +59,10 @@
         CMParser *parser = [[CMParser alloc] initWithDocument:_document delegate:self];
         [parser parse];
         
-        _attributedString = [_buffer copy];
+        _attributedString = [[NSMutableAttributedString alloc] initWithAttributedString:self.buffer];
         _attributeStack = nil;
         _HTMLStack = nil;
-        _buffer = nil;
+        self.buffer = nil;
     }
     
     return _attributedString;
@@ -76,15 +77,19 @@
 
 - (void)parserDidEndDocument:(CMParser *)parser
 {
-    CFStringTrimWhitespace((__bridge CFMutableStringRef)_buffer.mutableString);
+    CFStringTrimWhitespace((__bridge CFMutableStringRef)self.buffer.mutableString);
 }
 
 - (void)parser:(CMParser *)parser foundText:(NSString *)text
 {
     CMHTMLElement *element = [_HTMLStack peek];
+//    if([element.tagName isEqualToString:@"img"]){
+//        [element.buffer appendString:text];
+//    }
     if (element != nil) {
         [element.buffer appendString:text];
-    } else {
+    }
+    else{
         [self appendString:text];
     }
 }
@@ -159,19 +164,35 @@
 
 - (void)parser:(CMParser *)parser didStartImageWithURL:(NSURL *)URL title:(NSString *)title
 {
-    NSMutableDictionary *baseAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:URL, NSLinkAttributeName, nil];
-#if !TARGET_OS_IPHONE
-    if (title != nil) {
-        baseAttributes[NSToolTipAttributeName] = title;
+    if (![URL isFileURL]) {
+        CMHTMLElement *element = [self newHTMLElementForTagName:@"img" HTML:@""];
+        if (element != nil) {
+            [_HTMLStack push:element];
+        }
     }
-#endif
-    [baseAttributes addEntriesFromDictionary:_attributes.linkAttributes];
-    [_attributeStack push:CMDefaultAttributeRun(baseAttributes)];
 }
 
 - (void)parser:(CMParser *)parser didEndImageWithURL:(NSURL *)URL title:(NSString *)title
 {
-    [_attributeStack pop];
+    CMHTMLElement *element = [_HTMLStack peek];
+    NSString *alt = element.buffer;
+    if(!alt.length){
+        alt = @"Alt-Image";
+    }
+    NSRange range = NSMakeRange(self.buffer.length, alt.length);
+    [self.buffer appendAttributedString:[[NSAttributedString alloc] initWithString:alt attributes:_attributes.h3Attributes]];
+    if([self.delegate respondsToSelector:@selector(render:getImageWithURL:sessionId:completionBlock:)]){
+        [self.delegate render:self getImageWithURL:URL sessionId:self.sessionId completionBlock:^(NSString *aSessionId, NSData *aImgData) {
+            if([aSessionId isEqualToString:self.sessionId] && aImgData){
+                NSTextAttachment *textAttachment = [NSTextAttachment new];
+                [textAttachment setImage:[UIImage imageWithData:aImgData]];
+                NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
+                id attrStr = (self.buffer?self.buffer:self.attributedString);
+                [attrStr replaceCharactersInRange:range withAttributedString:attrStringWithImage];
+            }
+        }];
+    }
+    [_HTMLStack pop];
 }
 
 - (void)parser:(CMParser *)parser foundHTML:(NSString *)HTML
@@ -361,7 +382,7 @@
 - (void)appendString:(NSString *)string
 {
     NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:string attributes:_attributeStack.cascadedAttributes];
-    [_buffer appendAttributedString:attrString];
+    [self.buffer appendAttributedString:attrString];
 }
 
 - (void)appendHTMLElement:(CMHTMLElement *)element
@@ -380,7 +401,7 @@
     if (attrString != nil) {
         CMHTMLElement *parentElement = [_HTMLStack peek];
         if (parentElement == nil) {
-            [_buffer appendAttributedString:attrString];
+            [self.buffer appendAttributedString:attrString];
         } else {
             [parentElement.buffer appendString:attrString.string];
         }

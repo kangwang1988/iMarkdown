@@ -7,14 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-
 @protocol CMHTMLElementTransformer;
 
 @interface CMHTMLElement : NSObject
 @property (nonatomic, readonly) id<CMHTMLElementTransformer> transformer;
 @property (nonatomic, readonly) NSString *tagName;
 @property (nonatomic, readonly) NSMutableString *buffer;
-
 - (instancetype)initWithTransformer:(id<CMHTMLElementTransformer>)transformer;
-
 @end
