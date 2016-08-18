@@ -11,65 +11,37 @@
 
 static NSDictionary * CMDefaultTextAttributes()
 {
-#if TARGET_OS_IPHONE
-    return @{NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleBody]};
-#else
-    return @{NSFontAttributeName: [NSFont userFontOfSize:12.0]};
-#endif
+    return @{NSFontAttributeName: [UIFont systemFontOfSize:12.f]};
 }
 
 static NSDictionary * CMDefaultH1Attributes()
 {
-#if TARGET_OS_IPHONE
-    return @{NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline]};
-#else
-    return @{NSFontAttributeName: [NSFont userFontOfSize:24.0]};
-#endif
+    return @{NSFontAttributeName: [UIFont systemFontOfSize:24.f]};
 }
 
 static NSDictionary * CMDefaultH2Attributes()
 {
-#if TARGET_OS_IPHONE
-    return @{NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline]};
-#else
-    return @{NSFontAttributeName: [NSFont userFontOfSize:18.0]};
-#endif
+    return @{NSFontAttributeName: [UIFont systemFontOfSize:18.f]};
 }
 
 static NSDictionary * CMDefaultH3Attributes()
 {
-#if TARGET_OS_IPHONE
-    return @{NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline]};
-#else
-    return @{NSFontAttributeName: [NSFont userFontOfSize:14.0]};
-#endif
+    return @{NSFontAttributeName: [UIFont systemFontOfSize:14.f]};
 }
 
 static NSDictionary * CMDefaultH4Attributes()
 {
-#if TARGET_OS_IPHONE
-    return @{NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline]};
-#else
-    return @{NSFontAttributeName: [NSFont userFontOfSize:12.0]};
-#endif
+    return @{NSFontAttributeName: [UIFont systemFontOfSize:12.f]};
 }
 
 static NSDictionary * CMDefaultH5Attributes()
 {
-#if TARGET_OS_IPHONE
-    return @{NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline]};
-#else
-    return @{NSFontAttributeName: [NSFont userFontOfSize:10.0]};
-#endif
+    return @{NSFontAttributeName: [UIFont systemFontOfSize:10.f]};
 }
 
 static NSDictionary * CMDefaultH6Attributes()
 {
-#if TARGET_OS_IPHONE
-    return @{NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline]};
-#else
-    return @{NSFontAttributeName: [NSFont userFontOfSize:8.0]};
-#endif
+    return @{NSFontAttributeName: [UIFont systemFontOfSize:8.f]};
 }
 
 static NSDictionary * CMDefaultLinkAttributes()
@@ -103,47 +75,52 @@ static NSParagraphStyle * DefaultIndentedParagraphStyle()
 static NSDictionary * CMDefaultCodeBlockAttributes()
 {
     return @{
-#if TARGET_OS_IPHONE
-        NSFontAttributeName: MonospaceFont(),
-#else
-        NSFontAttributeName: [NSFont userFixedPitchFontOfSize:12.0],
-#endif
-        NSParagraphStyleAttributeName: DefaultIndentedParagraphStyle()
+        NSFontAttributeName: [UIFont systemFontOfSize:12.0],
+        NSParagraphStyleAttributeName: DefaultIndentedParagraphStyle(),
+        NSBackgroundColorAttributeName:[UIColor colorWithRGBHex:0XF6F6F6 alpha:1.f],
+        NSForegroundColorAttributeName:[UIColor colorWithRGBHex:0X0000FF alpha:1.f]
     };
 }
 
 static NSDictionary * CMDefaultInlineCodeAttributes()
 {
-#if TARGET_OS_IPHONE
-    return @{NSFontAttributeName: MonospaceFont()};
-#else
-    return @{NSFontAttributeName: [NSFont userFixedPitchFontOfSize:12.0]};
-#endif
+    return @{NSFontAttributeName: [UIFont systemFontOfSize:30],NSBackgroundColorAttributeName:[UIColor colorWithRGBHex:0XF6F6F6 alpha:1.f],
+        NSForegroundColorAttributeName:[UIColor colorWithRGBHex:0X262626 alpha:1.f]};
 }
 
 static NSDictionary * CMDefaultBlockQuoteAttributes()
 {
-    return @{NSParagraphStyleAttributeName: DefaultIndentedParagraphStyle()};
+    return @{NSParagraphStyleAttributeName: DefaultIndentedParagraphStyle(),
+             NSBackgroundColorAttributeName:[UIColor colorWithRGBHex:0XF6F6F6 alpha:1.f],
+             NSForegroundColorAttributeName:[UIColor colorWithRGBHex:0X262626 alpha:1.f]};
 }
 
 static NSDictionary * CMDefaultOrderedListAttributes()
 {
-    return @{NSParagraphStyleAttributeName: DefaultIndentedParagraphStyle()};
+    return @{NSParagraphStyleAttributeName: DefaultIndentedParagraphStyle(),
+             NSBackgroundColorAttributeName:[UIColor colorWithRGBHex:0XF6F6F6 alpha:1.f],
+             NSForegroundColorAttributeName:[UIColor colorWithRGBHex:0X262626 alpha:1.f]};
 }
 
 static NSDictionary * CMDefaultUnorderedListAttributes()
 {
-    return @{NSParagraphStyleAttributeName: DefaultIndentedParagraphStyle()};
+    return @{NSParagraphStyleAttributeName: DefaultIndentedParagraphStyle(),
+             NSBackgroundColorAttributeName:[UIColor colorWithRGBHex:0XF6F6F6 alpha:1.f],
+             NSForegroundColorAttributeName:[UIColor colorWithRGBHex:0X262626 alpha:1.f]};
 }
 
 static NSDictionary * CMDefaultOrderedSublistAttributes()
 {
-    return @{NSParagraphStyleAttributeName: DefaultIndentedParagraphStyle()};
+    return @{NSParagraphStyleAttributeName: DefaultIndentedParagraphStyle(),
+             NSBackgroundColorAttributeName:[UIColor colorWithRGBHex:0XF6F6F6 alpha:1.f],
+             NSForegroundColorAttributeName:[UIColor colorWithRGBHex:0X262626 alpha:1.f]};
 }
 
 static NSDictionary * CMDefaultUnorderedSublistAttributes()
 {
-    return @{NSParagraphStyleAttributeName: DefaultIndentedParagraphStyle()};
+    return @{NSParagraphStyleAttributeName: DefaultIndentedParagraphStyle(),
+             NSBackgroundColorAttributeName:[UIColor colorWithRGBHex:0XF6F6F6 alpha:1.f],
+             NSForegroundColorAttributeName:[UIColor colorWithRGBHex:0X262626 alpha:1.f]};
 }
 
 @implementation CMTextAttributes

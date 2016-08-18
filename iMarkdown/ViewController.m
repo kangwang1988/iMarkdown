@@ -23,7 +23,7 @@
 
 @implementation ViewController
 - (IBAction)onBtnRender:(id)sender{
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"md"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"reference" ofType:@"md"];
     CMDocument *document = [[CMDocument alloc] initWithContentsOfFile:path options:0];
     CMAttributedStringRenderer *renderer =[[CMAttributedStringRenderer alloc] initWithDocument:document attributes:[CMTextAttributes new]];
     [renderer registerHTMLElementTransformer:[CMHTMLStrikethroughTransformer new]];

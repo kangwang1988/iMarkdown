@@ -21,13 +21,13 @@
 @interface CMAttributedStringRenderer () <CMParserDelegate>
 @property (nonatomic,copy) NSString *sessionId;
 @property (nonatomic,strong) NSMutableAttributedString *buffer;
-@property (nonatomic,strong) NSMutableAttributedString *attributedString;
+@property (nonatomic,strong) CMCascadingAttributeStack *attributeStack;
+@property (nonatomic,assign) NSInteger rangeOffset;
 @end
 
 @implementation CMAttributedStringRenderer {
     CMDocument *_document;
     CMTextAttributes *_attributes;
-    CMCascadingAttributeStack *_attributeStack;
     CMStack *_HTMLStack;
     NSMutableDictionary *_tagNameToTransformerMapping;
 }
@@ -50,7 +50,7 @@
 
 - (NSAttributedString *)render
 {
-    if (_attributedString == nil) {
+    if (!self.buffer.length) {
         [self setSessionId:[NKHelper stringWithUUID]];
         _attributeStack = [[CMCascadingAttributeStack alloc] init];
         _HTMLStack = [[CMStack alloc] init];
@@ -58,34 +58,29 @@
         
         CMParser *parser = [[CMParser alloc] initWithDocument:_document delegate:self];
         [parser parse];
-        
-        _attributedString = [[NSMutableAttributedString alloc] initWithAttributedString:self.buffer];
         _attributeStack = nil;
         _HTMLStack = nil;
-        self.buffer = nil;
+        [self setRangeOffset:0];
     }
-    
-    return _attributedString;
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]  initWithAttributedString:self.buffer];
+    CFStringTrimWhitespace((__bridge CFMutableStringRef)attributedString.mutableString);
+    return attributedString;
 }
 
 #pragma mark - CMParserDelegate
 
 - (void)parserDidStartDocument:(CMParser *)parser
 {
-    [_attributeStack push:CMDefaultAttributeRun(_attributes.textAttributes)];
+    [self.attributeStack push:CMDefaultAttributeRun(_attributes.textAttributes)];
 }
 
 - (void)parserDidEndDocument:(CMParser *)parser
 {
-    CFStringTrimWhitespace((__bridge CFMutableStringRef)self.buffer.mutableString);
 }
 
 - (void)parser:(CMParser *)parser foundText:(NSString *)text
 {
     CMHTMLElement *element = [_HTMLStack peek];
-//    if([element.tagName isEqualToString:@"img"]){
-//        [element.buffer appendString:text];
-//    }
     if (element != nil) {
         [element.buffer appendString:text];
     }
@@ -96,29 +91,33 @@
 
 - (void)parser:(CMParser *)parser didStartHeaderWithLevel:(NSInteger)level
 {
-    [_attributeStack push:CMDefaultAttributeRun([_attributes attributesForHeaderLevel:level])];
+    [self.attributeStack push:CMDefaultAttributeRun([_attributes attributesForHeaderLevel:level])];
 }
 
 - (void)parser:(CMParser *)parser didEndHeaderWithLevel:(NSInteger)level
 {
     [self appendString:@"\n"];
-    [_attributeStack pop];
+    [self.attributeStack pop];
+//    [self appendLineBreak];
 }
 
 - (void)parserDidStartParagraph:(CMParser *)parser
 {
     if (![self nodeIsInTightMode:parser.currentNode]) {
-        NSMutableParagraphStyle* paragraphStyle = [NSMutableParagraphStyle new];
-        paragraphStyle.paragraphSpacingBefore = 12;
-        
-        [_attributeStack push:CMDefaultAttributeRun(@{NSParagraphStyleAttributeName: paragraphStyle})];
+        NSDictionary *attributes = [[self.attributeStack peek] attributes];
+        NSMutableParagraphStyle* paragraphStyle = attributes[NSParagraphStyleAttributeName];
+        if(!paragraphStyle){
+            paragraphStyle = [NSMutableParagraphStyle new];
+            paragraphStyle.paragraphSpacingBefore = 12;
+        }
+        [self.attributeStack push:CMDefaultAttributeRun(@{NSParagraphStyleAttributeName: paragraphStyle})];
     }
 }
 
 - (void)parserDidEndParagraph:(CMParser *)parser
 {
     if (![self nodeIsInTightMode:parser.currentNode]) {
-        [_attributeStack pop];
+        [self.attributeStack pop];
         [self appendString:@"\n"];
     }
 }
@@ -126,23 +125,23 @@
 - (void)parserDidStartEmphasis:(CMParser *)parser
 {
     BOOL hasExplicitFont = _attributes.emphasisAttributes[NSFontAttributeName] != nil;
-    [_attributeStack push:CMTraitAttributeRun(_attributes.emphasisAttributes, hasExplicitFont ? 0 : CMFontTraitItalic)];
+    [self.attributeStack push:CMTraitAttributeRun(_attributes.emphasisAttributes, hasExplicitFont ? 0 : CMFontTraitItalic)];
 }
 
 - (void)parserDidEndEmphasis:(CMParser *)parser
 {
-    [_attributeStack pop];
+    [self.attributeStack pop];
 }
 
 - (void)parserDidStartStrong:(CMParser *)parser
 {
     BOOL hasExplicitFont = _attributes.strongAttributes[NSFontAttributeName] != nil;
-    [_attributeStack push:CMTraitAttributeRun(_attributes.strongAttributes, hasExplicitFont ? 0 : CMFontTraitBold)];
+    [self.attributeStack push:CMTraitAttributeRun(_attributes.strongAttributes, hasExplicitFont ? 0 : CMFontTraitBold)];
 }
 
 - (void)parserDidEndStrong:(CMParser *)parse
 {
-    [_attributeStack pop];
+    [self.attributeStack pop];
 }
 
 - (void)parser:(CMParser *)parser didStartLinkWithURL:(NSURL *)URL title:(NSString *)title
@@ -154,12 +153,12 @@
     }
 #endif
     [baseAttributes addEntriesFromDictionary:_attributes.linkAttributes];
-    [_attributeStack push:CMDefaultAttributeRun(baseAttributes)];
+    [self.attributeStack push:CMDefaultAttributeRun(baseAttributes)];
 }
 
 - (void)parser:(CMParser *)parser didEndLinkWithURL:(NSURL *)URL title:(NSString *)title
 {
-    [_attributeStack pop];
+    [self.attributeStack pop];
 }
 
 - (void)parser:(CMParser *)parser didStartImageWithURL:(NSURL *)URL title:(NSString *)title
@@ -177,7 +176,7 @@
     CMHTMLElement *element = [_HTMLStack peek];
     NSString *alt = element.buffer;
     if(!alt.length){
-        alt = @"Alt-Image";
+        alt = [[URL.absoluteString lastPathComponent] stringByDeletingPathExtension];
     }
     NSRange range = NSMakeRange(self.buffer.length, alt.length);
     [self.buffer appendAttributedString:[[NSAttributedString alloc] initWithString:alt attributes:_attributes.h3Attributes]];
@@ -186,9 +185,9 @@
             if([aSessionId isEqualToString:self.sessionId] && aImgData){
                 NSTextAttachment *textAttachment = [NSTextAttachment new];
                 [textAttachment setImage:[UIImage imageWithData:aImgData]];
-                NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
-                id attrStr = (self.buffer?self.buffer:self.attributedString);
-                [attrStr replaceCharactersInRange:range withAttributedString:attrStringWithImage];
+                NSAttributedString *attrWithImg = [NSAttributedString attributedStringWithAttachment:textAttachment];
+                [self.buffer replaceCharactersInRange:NSMakeRange(range.location+self.rangeOffset, range.length) withAttributedString:attrWithImg];
+                [self setRangeOffset:self.rangeOffset+attrWithImg.length-range.length];
             }
         }];
     }
@@ -233,16 +232,16 @@
 
 - (void)parser:(CMParser *)parser foundCodeBlock:(NSString *)code info:(NSString *)info
 {
-    [_attributeStack push:CMDefaultAttributeRun(_attributes.codeBlockAttributes)];
+    [self.attributeStack push:CMDefaultAttributeRun(_attributes.codeBlockAttributes)];
     [self appendString:[NSString stringWithFormat:@"\n\n%@\n\n", code]];
-    [_attributeStack pop];
+    [self.attributeStack pop];
 }
 
 - (void)parser:(CMParser *)parser foundInlineCode:(NSString *)code
 {
-    [_attributeStack push:CMDefaultAttributeRun(_attributes.inlineCodeAttributes)];
+    [self.attributeStack push:CMDefaultAttributeRun(_attributes.inlineCodeAttributes)];
     [self appendString:code];
-    [_attributeStack pop];
+    [self.attributeStack pop];
 }
 
 - (void)parserFoundSoftBreak:(CMParser *)parser
@@ -257,34 +256,34 @@
 
 - (void)parserDidStartBlockQuote:(CMParser *)parser
 {
-    [_attributeStack push:CMDefaultAttributeRun(_attributes.blockQuoteAttributes)];
+    [self.attributeStack push:CMDefaultAttributeRun(_attributes.blockQuoteAttributes)];
 }
 
 - (void)parserDidEndBlockQuote:(CMParser *)parser
 {
-    [_attributeStack pop];
+    [self.attributeStack pop];
 }
 
 - (void)parser:(CMParser *)parser didStartUnorderedListWithTightness:(BOOL)tight
 {
-    [_attributeStack push:CMDefaultAttributeRun([self listAttributesForNode:parser.currentNode])];
+    [self.attributeStack push:CMDefaultAttributeRun([self listAttributesForNode:parser.currentNode])];
     [self appendString:@"\n"];
 }
 
 - (void)parser:(CMParser *)parser didEndUnorderedListWithTightness:(BOOL)tight
 {
-    [_attributeStack pop];
+    [self.attributeStack pop];
 }
 
 - (void)parser:(CMParser *)parser didStartOrderedListWithStartingNumber:(NSInteger)num tight:(BOOL)tight
 {
-    [_attributeStack push:CMOrderedListAttributeRun([self listAttributesForNode:parser.currentNode], num)];
+    [self.attributeStack push:CMOrderedListAttributeRun([self listAttributesForNode:parser.currentNode], num)];
     [self appendString:@"\n"];
 }
 
 - (void)parser:(CMParser *)parser didEndOrderedListWithStartingNumber:(NSInteger)num tight:(BOOL)tight
 {
-    [_attributeStack pop];
+    [self.attributeStack pop];
 }
 
 - (void)parserDidStartListItem:(CMParser *)parser
@@ -296,14 +295,14 @@
             break;
         case CMListTypeUnordered: {
             [self appendString:@"\u2022 "];
-            [_attributeStack push:CMDefaultAttributeRun(_attributes.unorderedListItemAttributes)];
+            [self.attributeStack push:CMDefaultAttributeRun(_attributes.unorderedListItemAttributes)];
             break;
         }
         case CMListTypeOrdered: {
-            CMAttributeRun *parentRun = [_attributeStack peek];
+            CMAttributeRun *parentRun = [self.attributeStack peek];
             [self appendString:[NSString stringWithFormat:@"%ld. ", (long)parentRun.orderedListItemNumber]];
             parentRun.orderedListItemNumber++;
-            [_attributeStack push:CMDefaultAttributeRun(_attributes.orderedListItemAttributes)];
+            [self.attributeStack push:CMDefaultAttributeRun(_attributes.orderedListItemAttributes)];
             break;
         }
         default:
@@ -316,7 +315,7 @@
     if (parser.currentNode.next != nil || [self sublistLevel:parser.currentNode] == 1) {
         [self appendString:@"\n"];
     }
-    [_attributeStack pop];
+    [self.attributeStack pop];
 }
 
 #pragma mark - Private
@@ -381,7 +380,7 @@
 
 - (void)appendString:(NSString *)string
 {
-    NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:string attributes:_attributeStack.cascadedAttributes];
+    NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:string attributes:self.attributeStack.cascadedAttributes];
     [self.buffer appendAttributedString:attrString];
 }
 
@@ -395,7 +394,7 @@
     }
     
     ONOXMLElement *XMLElement = document.rootElement[0][0];
-    NSDictionary *attributes = _attributeStack.cascadedAttributes;
+    NSDictionary *attributes = self.attributeStack.cascadedAttributes;
     NSAttributedString *attrString = [element.transformer attributedStringForElement:XMLElement attributes:attributes];
     
     if (attrString != nil) {
@@ -408,4 +407,20 @@
     }
 }
 
+- (void)appendLineBreak{
+    NSString *unicodeStr = @"\u00a0\t\t";
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:unicodeStr];
+    NSRange strRange = NSMakeRange(0, str.length);
+    NSMutableParagraphStyle *const tabStyle = [[NSMutableParagraphStyle alloc] init];
+    tabStyle.headIndent = 10;
+    tabStyle.firstLineHeadIndent = 1;
+    tabStyle.tailIndent = -1;
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    NSTextTab *listTab = [[NSTextTab alloc] initWithTextAlignment:NSTextAlignmentCenter location:width - tabStyle.headIndent + tabStyle.tailIndent options:@{}];
+    tabStyle.tabStops = @[listTab];
+    [str  addAttribute:NSParagraphStyleAttributeName value:tabStyle range:strRange];
+    [str addAttribute:NSStrikethroughStyleAttributeName value:[NSNumber numberWithInt:1] range:strRange];
+    [str addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor] range:strRange];
+    [self.buffer appendAttributedString:str];
+}
 @end

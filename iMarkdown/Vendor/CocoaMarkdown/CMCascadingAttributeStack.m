@@ -69,7 +69,6 @@ static CMFont * CMFontWithTraits(CMFontSymbolicTraits traits, CMFont *font)
             if (run.fontTraits != 0 &&
                 (baseFont = allAttributes[NSFontAttributeName]) &&
                 (adjustedFont = CMFontWithTraits(run.fontTraits, baseFont))) {
-                
                 NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithDictionary:run.attributes];
                 attributes[NSFontAttributeName] = adjustedFont;
                 [allAttributes addEntriesFromDictionary:attributes];
@@ -81,5 +80,4 @@ static CMFont * CMFontWithTraits(CMFontSymbolicTraits traits, CMFont *font)
     }
     return _cascadedAttributes;
 }
-
 @end

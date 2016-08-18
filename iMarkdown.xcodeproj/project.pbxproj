@@ -13,6 +13,7 @@
 		293E9E121D61689F00CE6584 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 293E9E101D61689F00CE6584 /* Main.storyboard */; };
 		293E9E141D61689F00CE6584 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 293E9E131D61689F00CE6584 /* Assets.xcassets */; };
 		293E9E171D61689F00CE6584 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 293E9E151D61689F00CE6584 /* LaunchScreen.storyboard */; };
+		29644E3A1D64B9AA00D1D03C /* UIColor+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 29644E391D64B9AA00D1D03C /* UIColor+Extension.m */; };
 		2986C3861D6362B0009B378F /* CMHTMLImgTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2986C3851D6362B0009B378F /* CMHTMLImgTransformer.m */; };
 		2986C3891D63705A009B378F /* NKHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2986C3881D63705A009B378F /* NKHelper.m */; };
 		29F1FA681D616B2D00836B05 /* CMAttributedStringRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 29F1FA0F1D616B2D00836B05 /* CMAttributedStringRenderer.m */; };
@@ -34,7 +35,6 @@
 		29F1FA781D616B2D00836B05 /* CMParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 29F1FA331D616B2D00836B05 /* CMParser.m */; };
 		29F1FA791D616B2D00836B05 /* CMStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 29F1FA361D616B2D00836B05 /* CMStack.m */; };
 		29F1FA7A1D616B2D00836B05 /* CMTextAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 29F1FA381D616B2D00836B05 /* CMTextAttributes.m */; };
-		29F1FA7B1D616B2D00836B05 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 29F1FA3E1D616B2D00836B05 /* Info.plist */; };
 		29F1FA7C1D616B2D00836B05 /* blocks.c in Sources */ = {isa = PBXBuildFile; fileRef = 29F1FA421D616B2D00836B05 /* blocks.c */; };
 		29F1FA7D1D616B2D00836B05 /* buffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 29F1FA431D616B2D00836B05 /* buffer.c */; };
 		29F1FA7E1D616B2D00836B05 /* case_fold_switch.inc in Sources */ = {isa = PBXBuildFile; fileRef = 29F1FA451D616B2D00836B05 /* case_fold_switch.inc */; };
@@ -57,8 +57,8 @@
 		29F1FA8F1D616B2D00836B05 /* utf8.c in Sources */ = {isa = PBXBuildFile; fileRef = 29F1FA611D616B2D00836B05 /* utf8.c */; };
 		29F1FA901D616B2D00836B05 /* xml.c in Sources */ = {isa = PBXBuildFile; fileRef = 29F1FA631D616B2D00836B05 /* xml.c */; };
 		29F1FA911D616B2D00836B05 /* ONOXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 29F1FA671D616B2D00836B05 /* ONOXMLDocument.m */; };
-		29F1FA941D616B3700836B05 /* test.md in Sources */ = {isa = PBXBuildFile; fileRef = 29F1FA931D616B3700836B05 /* test.md */; };
-		29F1FA951D616B4100836B05 /* test.md in Resources */ = {isa = PBXBuildFile; fileRef = 29F1FA931D616B3700836B05 /* test.md */; };
+		29F1FA941D616B3700836B05 /* reference.md in Sources */ = {isa = PBXBuildFile; fileRef = 29F1FA931D616B3700836B05 /* reference.md */; };
+		29F1FA951D616B4100836B05 /* reference.md in Resources */ = {isa = PBXBuildFile; fileRef = 29F1FA931D616B3700836B05 /* reference.md */; };
 		29F1FA971D616B6300836B05 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 29F1FA961D616B6300836B05 /* libxml2.tbd */; };
 /* End PBXBuildFile section */
 
@@ -73,6 +73,8 @@
 		293E9E131D61689F00CE6584 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		293E9E161D61689F00CE6584 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		293E9E181D61689F00CE6584 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		29644E381D64B9AA00D1D03C /* UIColor+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+Extension.h"; path = "iMarkdown/UIColor+Extension.h"; sourceTree = SOURCE_ROOT; };
+		29644E391D64B9AA00D1D03C /* UIColor+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+Extension.m"; path = "iMarkdown/UIColor+Extension.m"; sourceTree = SOURCE_ROOT; };
 		2986C3841D6362B0009B378F /* CMHTMLImgTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMHTMLImgTransformer.h; sourceTree = "<group>"; };
 		2986C3851D6362B0009B378F /* CMHTMLImgTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMHTMLImgTransformer.m; sourceTree = "<group>"; };
 		2986C3871D63705A009B378F /* NKHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NKHelper.h; sourceTree = "<group>"; };
@@ -125,7 +127,6 @@
 		29F1FA3B1D616B2D00836B05 /* cmark_export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cmark_export.h; sourceTree = "<group>"; };
 		29F1FA3C1D616B2D00836B05 /* cmark_version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cmark_version.h; sourceTree = "<group>"; };
 		29F1FA3D1D616B2D00836B05 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
-		29F1FA3E1D616B2D00836B05 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		29F1FA411D616B2D00836B05 /* bench.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bench.h; sourceTree = "<group>"; };
 		29F1FA421D616B2D00836B05 /* blocks.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = blocks.c; sourceTree = "<group>"; };
 		29F1FA431D616B2D00836B05 /* buffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = buffer.c; sourceTree = "<group>"; };
@@ -164,7 +165,7 @@
 		29F1FA651D616B2D00836B05 /* Ono.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ono.h; sourceTree = "<group>"; };
 		29F1FA661D616B2D00836B05 /* ONOXMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONOXMLDocument.h; sourceTree = "<group>"; };
 		29F1FA671D616B2D00836B05 /* ONOXMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONOXMLDocument.m; sourceTree = "<group>"; };
-		29F1FA931D616B3700836B05 /* test.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = test.md; sourceTree = "<group>"; };
+		29F1FA931D616B3700836B05 /* reference.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = reference.md; sourceTree = "<group>"; };
 		29F1FA961D616B6300836B05 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -231,6 +232,8 @@
 			children = (
 				29F1FA0D1D616B2D00836B05 /* CocoaMarkdown */,
 				29F1FA3F1D616B2D00836B05 /* External */,
+				29644E381D64B9AA00D1D03C /* UIColor+Extension.h */,
+				29644E391D64B9AA00D1D03C /* UIColor+Extension.m */,
 			);
 			path = Vendor;
 			sourceTree = "<group>";
@@ -283,7 +286,6 @@
 				29F1FA381D616B2D00836B05 /* CMTextAttributes.m */,
 				29F1FA391D616B2D00836B05 /* CocoaMarkdown.h */,
 				29F1FA3A1D616B2D00836B05 /* Configuration */,
-				29F1FA3E1D616B2D00836B05 /* Info.plist */,
 				2986C3841D6362B0009B378F /* CMHTMLImgTransformer.h */,
 				2986C3851D6362B0009B378F /* CMHTMLImgTransformer.m */,
 			);
@@ -364,7 +366,7 @@
 		29F1FA921D616B3700836B05 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				29F1FA931D616B3700836B05 /* test.md */,
+				29F1FA931D616B3700836B05 /* reference.md */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -429,8 +431,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				29F1FA951D616B4100836B05 /* test.md in Resources */,
-				29F1FA7B1D616B2D00836B05 /* Info.plist in Resources */,
+				29F1FA951D616B4100836B05 /* reference.md in Resources */,
 				293E9E171D61689F00CE6584 /* LaunchScreen.storyboard in Resources */,
 				293E9E141D61689F00CE6584 /* Assets.xcassets in Resources */,
 				293E9E121D61689F00CE6584 /* Main.storyboard in Resources */,
@@ -453,7 +454,7 @@
 				29F1FA6A1D616B2D00836B05 /* CMCascadingAttributeStack.m in Sources */,
 				29F1FA6B1D616B2D00836B05 /* CMDocument+AttributedStringAdditions.m in Sources */,
 				29F1FA741D616B2D00836B05 /* CMHTMLUnderlineTransformer.m in Sources */,
-				29F1FA941D616B3700836B05 /* test.md in Sources */,
+				29F1FA941D616B3700836B05 /* reference.md in Sources */,
 				29F1FA781D616B2D00836B05 /* CMParser.m in Sources */,
 				29F1FA711D616B2D00836B05 /* CMHTMLStrikethroughTransformer.m in Sources */,
 				29F1FA831D616B2D00836B05 /* houdini_href_e.c in Sources */,
@@ -463,6 +464,7 @@
 				29F1FA751D616B2D00836B05 /* CMHTMLUtilities.m in Sources */,
 				29F1FA841D616B2D00836B05 /* houdini_html_e.c in Sources */,
 				29F1FA6C1D616B2D00836B05 /* CMDocument+HTMLAdditions.m in Sources */,
+				29644E3A1D64B9AA00D1D03C /* UIColor+Extension.m in Sources */,
 				29F1FA8C1D616B2D00836B05 /* references.c in Sources */,
 				29F1FA761D616B2D00836B05 /* CMIterator.m in Sources */,
 				29F1FA7F1D616B2D00836B05 /* cmark.c in Sources */,

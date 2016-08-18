@@ -15,4 +15,5 @@
 #endif /* iMarkdown_Prefix_pch */
 #ifdef __OBJC__
 #import "NKHelper.h"
+#import "UIColor+Extension.h"
 #endif
